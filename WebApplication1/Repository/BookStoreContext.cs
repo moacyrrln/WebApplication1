@@ -8,6 +8,7 @@ namespace BookStore.Repository
         public BookStoreContext(DbContextOptions<BookStoreContext> options) : base(options) { }
 
         public DbSet<Author> Authors { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

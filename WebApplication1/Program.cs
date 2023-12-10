@@ -11,11 +11,11 @@
 //dotnet ef database update
 
 using BookStore.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddDbContext<BookStoreContext>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();

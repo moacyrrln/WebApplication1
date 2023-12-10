@@ -8,6 +8,6 @@ namespace BookStore.Models
         public int UserId { get; set; }
         public string? Name { get; set; }
         public string? Password { get; set; }
-        public string? Rols { get; set; }
+        public string? Role { get; set; }
     }
 }

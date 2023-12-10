@@ -11,7 +11,11 @@
 //dotnet ef database update
 
 using BookStore.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +23,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<BookStoreContext>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookStoreContext, BookStoreContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("chavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquerchavequalquer"))
+        };
+    });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin")/*.RequireClaim(nova claim)*/);
+});
 
 var app = builder.Build();
 

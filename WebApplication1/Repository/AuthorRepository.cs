@@ -5,19 +5,13 @@ namespace BookStore.Repository
     public class AuthorRepository : IAuthorRepository
     {
         protected readonly BookStoreContext _context;
-
-        public AuthorRepository(BookStoreContext context)
-        {
-            _context = context;
-        }
-
+        public AuthorRepository(BookStoreContext context) => _context = context;
         public Author AddAuthor(Author author)
         {
             _context.Authors.Add(author);
             _context.SaveChanges();
             return author;
         }
-
         public void DeleteAuthor(int AuthorId)
         {
             var myAuthor = _context.Authors.Find(AuthorId);
@@ -27,12 +21,7 @@ namespace BookStore.Repository
                 _context.SaveChanges();
             }
         }
-
-        public IEnumerable<Author> GetAuthors()
-        {
-            return _context.Authors;
-        }
-
+        public IEnumerable<Author> GetAuthors() => _context.Authors;
         public Author UpdateAuthor(Author author, int AuthorId)
         {
             var myAuthor = _context.Authors.Find(AuthorId);
